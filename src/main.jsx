@@ -1,7 +1,11 @@
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import Home from './pages/Home/Home';
+import Favorites from './pages/Favorites/Favorites';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 const router = createBrowserRouter([
   {
@@ -10,15 +14,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Home</h1>,
+        element: <Home />,
       },
       {
         path: '/favorites',
-        element: <h1>Favorites</h1>,
+        element: <Favorites />,
       },
     ],
     errorElement: <h1>error</h1>,
   },
-])
+]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(<RouterProvider router={router} />)
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);

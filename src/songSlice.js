@@ -1,34 +1,39 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { build } from 'vite'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const initialState = {
   songs: [],
   loading: false,
-  error: null,
-}
+  error: '',
+};
 
-const fetchSongs = createAsyncThunk('song/fetchSongs', () => {
-  return axios
-    .get('https://musicbrainz.org/ws/2/release-group?fmt=json&query=queen')
-    .then((response) => response.data.map((song) => song.count))
-})
+const fetchSongs = createAsyncThunk('song/fetchSongs', async (title) => {
+  const response = await axios.get(
+    `https://musicbrainz.org/ws/2/release-group?fmt=json&query=${title}`
+  );
 
-const songSlice = createSlice({
+  return response.data;
+});
+
+const song = createSlice({
   name: 'song',
   initialState,
-  reducers: (builder) => {
+  extraReducers: (builder) => {
     builder.addCase(fetchSongs.pending, (state) => {
-      state.loading = true
-    })
-    build.addCase(fetchSongs.fulfilled, (state, action) => {
-      ;(state.loading = false), (state.songs = action.payload), (state.error = '')
-    })
-    build.addCase(fetchSongs.rejected, (state, action) => {
-      ;(state.loading = false), (state.songs = []), (state.error = action.error.message)
-    })
+      state.loading = true;
+    });
+    builder.addCase(fetchSongs.fulfilled, (state, action) => {
+      (state.loading = false),
+        (state.songs = action.payload),
+        (state.error = '');
+    });
+    builder.addCase(fetchSongs.rejected, (state, action) => {
+      (state.loading = false),
+        (state.songs = []),
+        (state.error = action.error.message);
+    });
   },
-})
+});
 
-export const songReducer = songSlice.reducer
-export { fetchSongs }
+export default song.reducer;
+export { fetchSongs };
