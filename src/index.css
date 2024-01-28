@@ -91,3 +91,21 @@ a:visited {
 .m-16 {
   margin-top: 1rem;
 }
+
+.error {
+  color: red;
+}
+
+.top {
+  display: flex;
+  height: 92px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 12px 24px;
+  height: 100%;
+  width: 150px;
+  cursor: pointer;
+}

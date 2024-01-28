@@ -6,6 +6,7 @@ import Favorites from './pages/Favorites/Favorites';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { FavoritesProvider } from './FavoriteContext';
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
+  <FavoritesProvider>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </FavoritesProvider>
 );

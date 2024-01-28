@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import SongList from './SongList';
 
 const SongView = () => {
   const song = useSelector((state) => state.song);
@@ -8,20 +9,11 @@ const SongView = () => {
   return (
     <div className="m-16">
       {song.loading && <div>Loading...</div>}
-      {!song.loading && song.error && <div>Error: {song.error}</div>}
+      {!song.loading && song.error && (
+        <div className="error">Error: {song.error}</div>
+      )}
       {!song.loading && Object.keys(song.songs).length ? (
-        <div className="song-container">
-          {groups.map((item) => (
-            <div className="row" key={item.id}>
-              <div>{item.title}</div>
-              <div>
-                {item['artist-credit'].map((el, index) => (
-                  <p key={index}>{el.name}</p>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <SongList groups={groups} />
       ) : (
         <p>No data</p>
       )}
